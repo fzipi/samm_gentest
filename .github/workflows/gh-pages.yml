@@ -16,9 +16,9 @@ jobs:
       - run: mkdir output
 
       - name: "Process datafiles"
-        uses: docker://fzipi/owasp-samm-preprocess-yaml:version-0.3.2
+        uses: docker://fzipi/owasp-samm-preprocess-yaml:version-0.3.3
         with: # needs a README in your repo root!
-          args: "--standalone --output=output/README.pdf README.md"
+          args: "-d Datafiles -o output"
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
