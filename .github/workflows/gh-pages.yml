@@ -12,12 +12,11 @@ jobs:
 
       - name: "Process datafiles"
         container:
-          image: nessimk/samm2yaml2pdf:0.1
+          image: fzipi/owasp-samm-preprocess-yaml:0.1
           volumes:
-            - Datafiles:/app/Datafiles
-            - output:/output
-        run: |
-          /app/make_pdf.sh /app/Datafiles /output
+            - Datafiles:/build/Datafiles
+            - output:/build/output
+        args: /build/output
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
