@@ -28,10 +28,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: actions/download-artifact@v1
-
-    - name: Download markdown-files
+      name: Download markdown-files
       with:
         name: markdown-files
+
+    - name: "Process artifacts"
       run: |
         mkdir -p business-function/practice/stream
         sed -i -e 's:- False:- "No":g' \*.md
