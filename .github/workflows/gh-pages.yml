@@ -6,11 +6,10 @@ on: push
 
 jobs:
   generate-markdown:
-    container:
-      volumes:
-        - Datafiles:/build/Datafiles
-        - output:/build/output
-      args: /build/output
+    # volumes:
+    #    - Datafiles:/build/Datafiles
+    #    - output:/build/output
+    #  args: /build/output
     steps:
       - uses: actions/checkout@v2
 
