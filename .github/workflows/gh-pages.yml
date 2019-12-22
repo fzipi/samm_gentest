@@ -1,0 +1,44 @@
+---
+
+name: github pages
+
+on: [push]
+
+jobs:
+  generate-markdown:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Process datafiles"
+        container:
+          image: nessimk/samm2yaml2pdf:0.1
+          volumes:
+            - Datafiles:/app/Datafiles
+            - output:/output
+          args: 
+            - '/app/make_pdf.sh'
+            - '/app/Datafiles'
+            - '/output'
+
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v1
+        with:
+          name: markdown-files
+          path: output
+        
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download markdown-files
+      uses: actions/download-artifact@v1
+      with:
+        name: markdown-files
+      run: |
+        mkdir -p business-function/practice/stream
+        sed -i -e 's:- False:- "No":g' *.md
+        mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
+        mv *-??-?.md business-function/practice/stream
+        mv *.md business-function/practice
