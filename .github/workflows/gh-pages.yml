@@ -16,8 +16,8 @@ jobs:
           volumes:
             - Datafiles:/app/Datafiles
             - output:/output
-          run: |
-            /app/make_pdf.sh /app/Datafiles /output
+        run: |
+          /app/make_pdf.sh /app/Datafiles /output
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
