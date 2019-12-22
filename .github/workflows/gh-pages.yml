@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: "Process datafiles"
-        uses: docker://fzipi/owasp-samm-preprocess-yaml:0.1
+        uses: docker://fzipi/owasp-samm-preprocess-yaml:version-0.2
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
