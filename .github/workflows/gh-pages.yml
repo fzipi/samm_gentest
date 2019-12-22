@@ -6,7 +6,6 @@ on: push
 
 jobs:
   generate-markdown:
-    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
 
@@ -17,6 +16,8 @@ jobs:
             - Datafiles:/build/Datafiles
             - output:/build/output
         args: /build/output
+        run: |
+          echo "Processing"
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
