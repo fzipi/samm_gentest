@@ -6,6 +6,7 @@ on: push
 
 jobs:
   generate-markdown:
+    runs-on: ubuntu-18.04
     # volumes:
     #    - Datafiles:/build/Datafiles
     #    - output:/build/output
