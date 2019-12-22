@@ -36,7 +36,8 @@ jobs:
         name: markdown-files
       run: |
         mkdir -p business-function/practice/stream
-        sed -i -e 's:- False:- "No":g' *.md
+        sed -i -e 's:- False:- "No":g' \*.md
         mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
-        mv *-??-?.md business-function/practice/stream
-        mv *.md business-function/practice
+        mv \*-??-?.md business-function/practice/stream
+        mv \*.md business-function/practice
+        
