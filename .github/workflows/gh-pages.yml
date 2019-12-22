@@ -1,8 +1,8 @@
 ---
 
-name: github pages
+name: test build
 
-on: [push]
+on: push
 
 jobs:
   generate-markdown:
