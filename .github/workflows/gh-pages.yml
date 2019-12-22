@@ -23,7 +23,7 @@ jobs:
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
         with:
-          name: markdown-files
+          name: markdown
           path: output/markdown
         
   build:
@@ -35,13 +35,12 @@ jobs:
     - uses: actions/download-artifact@v1
       name: Download markdown-files
       with:
-        name: markdown-files
+        name: markdown
 
     - name: "Process artifacts"
       run: |
-        cd output/markdown
+        cd markdown
         mkdir -p business-function/practice/stream
-        sed -i -e 's:- False:- "No":g' \*.md
         mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
         mv \*-??-?.md business-function/practice/stream
         mv \*.md business-function/practice
