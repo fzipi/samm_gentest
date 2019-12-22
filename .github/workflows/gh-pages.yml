@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: markdown-files
-          path: output
+          path: output/markdown
         
   build:
     runs-on: ubuntu-18.04
@@ -35,6 +35,7 @@ jobs:
 
     - name: "Process artifacts"
       run: |
+        cd output/markdown
         mkdir -p business-function/practice/stream
         sed -i -e 's:- False:- "No":g' \*.md
         mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
