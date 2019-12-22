@@ -6,16 +6,16 @@ on: push
 
 jobs:
   generate-markdown:
+    container:
+      volumes:
+        - Datafiles:/build/Datafiles
+        - output:/build/output
+      args: /build/output
     steps:
       - uses: actions/checkout@v2
 
       - name: "Process datafiles"
         uses: docker://fzipi/owasp-samm-preprocess-yaml:0.1
-        container:
-          volumes:
-            - Datafiles:/build/Datafiles
-            - output:/build/output
-          args: /build/output
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
