@@ -2,7 +2,13 @@
 
 name: test build
 
-on: push
+on:
+  push:
+    branches: 
+    - master
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   generate-markdown:
@@ -45,3 +51,10 @@ jobs:
         mv *-??-?.md business-function/practice/stream
         mv *.md business-function/practice
         
+    - name: "Deploy to Netlify"
+      run: echo "Deploying to Netlify"
+      if: github.event.pull_request
+        
+    - name: "Deploy to Github Pages"
+      run: echo "Deploying to GH Pages"
+      if: github.event.push
