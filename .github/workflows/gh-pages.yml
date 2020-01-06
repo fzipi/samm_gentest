@@ -49,6 +49,7 @@ jobs:
           cp -r business-function Website/content
 
       - name: "Run Hugo on resulting files"
+        run: echo "Running hugo"
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
