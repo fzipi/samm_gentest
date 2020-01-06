@@ -13,10 +13,6 @@ on:
 jobs:
   generate-markdown:
     runs-on: ubuntu-18.04
-    # volumes:
-    #    - Datafiles:/build/Datafiles
-    #    - output:/build/output
-    #  args: /build/output
     steps:
       - uses: actions/checkout@v2
       - run: mkdir output
@@ -50,11 +46,24 @@ jobs:
         mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
         mv *-??-?.md business-function/practice/stream
         mv *.md business-function/practice
-        
-    - name: "Deploy to Netlify"
-      run: echo "Deploying to Netlify"
-      if: github.event.pull_request
-        
-    - name: "Deploy to Github Pages"
-      run: echo "Deploying to GH Pages"
-      if: github.event.push
+        cp -r business-function Website/content/
+
+     - name: "Run Hugo on resulting files"
+
+     - name: "Upload artifacts"
+       uses: actions/upload-artifact@v1
+       with:
+         name: hugo
+         path: Website/public
+
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+
+      - name: "Deploy to Netlify"
+        run: echo "Deploying to Netlify"
+        if: github.event.pull_request.action == 'opened'
+          
+      - name: "Deploy to Github Pages"
+        run: echo "Deploying to GH Pages"
+        if: github.event.pull_request.action == 'closed' and github.event.pull_request.merged == true
