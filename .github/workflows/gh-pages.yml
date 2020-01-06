@@ -59,6 +59,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-18.04
+    needs: build
     steps:
       - name: "Deploy to Netlify"
         run: echo "Deploying to Netlify"
