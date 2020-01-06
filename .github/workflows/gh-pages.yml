@@ -44,8 +44,8 @@ jobs:
         cd markdown
         mkdir -p business-function/practice/stream
         mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
-        mv *-??-?.md business-function/practice/stream
-        mv *.md business-function/practice
+        mv "*-??-?.md" business-function/practice/stream
+        mv "*.md" business-function/practice
         cp -r business-function Website/content/
 
      - name: "Run Hugo on resulting files"
