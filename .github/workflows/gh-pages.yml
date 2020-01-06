@@ -48,7 +48,7 @@ jobs:
           mv *.md business-function/practice
           mkdir -p Website/public
           cp -r business-function Website/public
-          echo "Running Hugo on resulting files
+          echo "Running Hugo on resulting files"
 
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
