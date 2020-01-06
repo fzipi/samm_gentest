@@ -48,6 +48,7 @@ jobs:
         mv "*.md" business-function/practice
         cp -r business-function Website/content/
 
+
      - name: "Run Hugo on resulting files"
 
      - name: "Upload artifacts"
