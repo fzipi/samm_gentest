@@ -4,8 +4,8 @@ name: test build
 
 on:
   push:
-    branches: 
-    - master
+    branches:
+      - master
   pull_request:
     branches:
       - '*'
@@ -27,44 +27,42 @@ jobs:
         with:
           name: markdown
           path: output/markdown
-        
+
   build:
     runs-on: ubuntu-18.04
     needs: generate-markdown
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: actions/download-artifact@v1
-      name: Download markdown-files
-      with:
-        name: markdown
+      - uses: actions/download-artifact@v1
+        name: Download markdown-files
+        with:
+          name: markdown
 
-    - name: "Process artifacts"
-      run: |
-        cd markdown
-        mkdir -p business-function/practice/stream
-        mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
-        mv "*-??-?.md" business-function/practice/stream
-        mv "*.md" business-function/practice
-        cp -r business-function Website/content/
+      - name: "Process artifacts"
+        run: |
+          cd markdown
+          mkdir -p business-function/practice/stream
+          mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
+          mv "*-??-?.md" business-function/practice/stream
+          mv "*.md" business-function/practice
+          cp -r business-function Website/content
 
+      - name: "Run Hugo on resulting files"
 
-     - name: "Run Hugo on resulting files"
-
-     - name: "Upload artifacts"
-       uses: actions/upload-artifact@v1
-       with:
-         name: hugo
-         path: Website/public
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v1
+        with:
+          name: hugo
+          path: Website/public
 
   deploy:
     runs-on: ubuntu-18.04
     steps:
-
       - name: "Deploy to Netlify"
         run: echo "Deploying to Netlify"
-        if: github.event.pull_request.action == 'opened'
-          
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+
       - name: "Deploy to Github Pages"
         run: echo "Deploying to GH Pages"
-        if: github.event.pull_request.action == 'closed' and github.event.pull_request.merged == true
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.merged == true
