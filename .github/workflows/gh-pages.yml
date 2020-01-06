@@ -46,8 +46,9 @@ jobs:
           mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
           mv *-??-?.md business-function/practice/stream
           mv *.md business-function/practice
+          cd ..
           mkdir -p Website/public
-          cp -r business-function Website/public
+          cp -r markdown/business-function Website/public
           echo "Running Hugo on resulting files"
 
       - name: "Upload artifacts"
