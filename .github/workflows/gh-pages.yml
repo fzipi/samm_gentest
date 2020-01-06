@@ -46,7 +46,7 @@ jobs:
           mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
           mv *-??-?.md business-function/practice/stream
           mv *.md business-function/practice
-          cp -r business-function Website/content
+          #cp -r business-function Website/content
 
       - name: "Run Hugo on resulting files"
         run: echo "Running hugo"
