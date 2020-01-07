@@ -81,4 +81,4 @@ jobs:
 
       - name: "Deploy to Github Pages"
         run: echo "Deploying to GH Pages"
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.merged == true
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
