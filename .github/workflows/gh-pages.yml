@@ -61,6 +61,18 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+
       - name: "Deploy to Netlify"
         run: echo "Deploying to Netlify"
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
