@@ -4,8 +4,8 @@ name: test build
 
 on:
   push:
-    branches: 
-    - master
+    branches:
+      - master
   pull_request:
     branches:
       - '*'
@@ -13,10 +13,6 @@ on:
 jobs:
   generate-markdown:
     runs-on: ubuntu-18.04
-    # volumes:
-    #    - Datafiles:/build/Datafiles
-    #    - output:/build/output
-    #  args: /build/output
     steps:
       - uses: actions/checkout@v2
       - run: mkdir output
@@ -31,30 +27,58 @@ jobs:
         with:
           name: markdown
           path: output/markdown
-        
+
   build:
     runs-on: ubuntu-18.04
     needs: generate-markdown
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: actions/download-artifact@v1
-      name: Download markdown-files
-      with:
-        name: markdown
+      - uses: actions/download-artifact@v1
+        name: Download markdown-files
+        with:
+          name: markdown
 
-    - name: "Process artifacts"
-      run: |
-        cd markdown
-        mkdir -p business-function/practice/stream
-        mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
-        mv *-??-?.md business-function/practice/stream
-        mv *.md business-function/practice
-        
-    - name: "Deploy to Netlify"
-      run: echo "Deploying to Netlify"
-      if: github.event.pull_request
-        
-    - name: "Deploy to Github Pages"
-      run: echo "Deploying to GH Pages"
-      if: github.event.push
+      - name: "Process artifacts"
+        run: |
+          cd markdown
+          mkdir -p business-function/practice/stream
+          mv Design.md Governance.md Implementation.md Operations.md Verification.md business-function
+          mv *-??-?.md business-function/practice/stream
+          mv *.md business-function/practice
+          cd ..
+          mkdir -p Website/public
+          cp -r markdown/business-function Website/public
+          echo "Running Hugo on resulting files"
+
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v1
+        with:
+          name: hugo
+          path: Website/public
+
+  deploy:
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+
+      - name: "Deploy to Netlify"
+        run: echo "Deploying to Netlify"
+        # Note: By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
+        if: github.event_name == 'pull_request' && github.base_ref == 'master'
+
+      - name: "Deploy to Github Pages"
+        run: echo "Deploying to GH Pages"
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.merged == true
