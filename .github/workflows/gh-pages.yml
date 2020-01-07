@@ -76,7 +76,8 @@ jobs:
 
       - name: "Deploy to Netlify"
         run: echo "Deploying to Netlify"
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        # Note: By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
+        if: github.event_name == 'pull_request' && github.base_ref == 'master'
 
       - name: "Deploy to Github Pages"
         run: echo "Deploying to GH Pages"
