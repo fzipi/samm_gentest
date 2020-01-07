@@ -72,6 +72,7 @@ jobs:
       - name: Dump steps context
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
 
       - name: "Deploy to Netlify"
         run: echo "Deploying to Netlify"
