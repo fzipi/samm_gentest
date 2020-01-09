@@ -75,7 +75,6 @@ jobs:
         run: echo "$STEPS_CONTEXT"
 
       - name: "Deploy to Netlify"
-        run: echo "Deploying to Netlify"
         # Note: By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
         uses: netlify/actions/cli@master
         with:
