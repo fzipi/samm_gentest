@@ -75,9 +75,17 @@ jobs:
         run: echo "$STEPS_CONTEXT"
 
       - name: "Deploy to Netlify"
-        run: echo "Deploying to Netlify"
         # Note: By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
-        if: github.event_name == 'pull_request' && github.base_ref == 'master'
+        uses: fzipi/netlify-actions/cli@master
+        with:
+          args: help
+          #args: deploy --dir=webpage --json > status.json
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Dump Netlify output
+        run: cat status.json
 
       - name: "Deploy to Github Pages"
         run: echo "Deploying to GH Pages"
